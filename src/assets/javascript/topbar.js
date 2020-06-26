@@ -1,0 +1,53 @@
+const iconMobile = document.querySelector(".header-menu-icon");
+const headerMenu = document.querySelector(".header-menu");
+
+let mobileMenuDOM;
+
+let isMenuOpen = false;
+
+iconMobile.addEventListener("click", (event) => {
+  event.stopPropagation();
+  toggleMobileMenu();
+});
+
+const toggleMobileMenu = (event) => {
+  if (isMenuOpen) {
+    closeMenu();
+  } else {
+    openMenu();
+  }
+  isMenuOpen = !isMenuOpen;
+};
+
+const openMenu = () => {
+  if (!mobileMenuDOM) {
+    createMobileMenu();
+  }
+  mobileMenuDOM.classList.add("open");
+};
+
+const closeMenu = () => {
+  mobileMenuDOM.classList.remove("open");
+};
+
+const createMobileMenu = () => {
+  mobileMenuDOM = document.createElement("div");
+  mobileMenuDOM.classList.add("mobile-menu");
+  mobileMenuDOM.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+  mobileMenuDOM.append(headerMenu.querySelector("ul").cloneNode(true));
+  headerMenu.append(mobileMenuDOM);
+};
+
+window.addEventListener("click", () => {
+  if (isMenuOpen) {
+    toggleMobileMenu();
+  }
+});
+
+window.addEventListener("resize", (event) => {
+  if (window.innerWidth > 480 && isMenuOpen) {
+    toggleMobileMenu();
+  }
+});
